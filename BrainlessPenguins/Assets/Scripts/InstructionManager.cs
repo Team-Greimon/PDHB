@@ -24,8 +24,8 @@ public class Instruction
         public ActionType _actionType;
     }
 
-    Condition _condition;
-    Action _action;
+    public Condition _condition;
+    public Action _action;
 }
 
 public class InstructionManager : MonoBehaviour

@@ -28,7 +28,7 @@ public class Instruction
     public Action _action;
 }
 
-public class InstructionManager : MonoBehaviour
+public class InstructionManager : Singleton<InstructionManager>
 {
     // Start is called before the first frame update
     void Start()

@@ -45,7 +45,7 @@ public class Map
     List<List<Tile>> _tiles;
 }
 
-public class MapManager : MonoBehaviour
+public class MapManager : Singleton<MapManager>
 {
     public Tile getTile(int r, int c)
     {

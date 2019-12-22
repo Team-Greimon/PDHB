@@ -47,17 +47,16 @@ public class Instruction
         }
     }
 
-    Condition _condition;
-    Action _action;
-
     public Instruction(Condition condition,Action action)
     {
         _condition = condition;
         _action = action;
     }
+    public Condition _condition;
+    public Action _action;
 }
 
-public class InstructionManager : MonoBehaviour
+public class InstructionManager : Singleton<InstructionManager>
 {
     Dictionary<Penguin.PenguinType, List<Instruction>> _instructionDictionary;
 

@@ -15,21 +15,10 @@ public class Instruction
         ConditionType _conditionType;
         public int _param;
 
-        public Condition(ConditionType conditionType)
+        public Condition(ConditionType conditionType,int param)
         {
             _conditionType = conditionType;
-            _param = -1;
-        }
-
-        public Condition(ConditionType conditionType, Penguin.PenguinType penguinType)
-        {
-            _conditionType = conditionType;
-            _param = (int)penguinType;
-        }
-        public Condition(ConditionType conditionType, Tile.TileType tileType)
-        {
-            _conditionType = conditionType;
-            _param = (int)tileType;
+            _param = param;
         }
     }
 
@@ -77,38 +66,17 @@ public class InstructionManager : Singleton<InstructionManager>
 
     }
 
-    //setPenguinInstruction(펭귄종류, 조건 종류, 액션 종류, 충돌한 펭귄종류, 충돌한 타일종류)
-    //충돌했을때의 조건에서 펭귄 타일 구분을 좀더 개선 해야함.
-    public void setPenguinInstruction(Penguin.PenguinType penguinType, 
-        Instruction.Condition.ConditionType conditionType, 
-        Instruction.Action.ActionType actionType, 
-        Penguin.PenguinType colisionPenguin =Penguin.PenguinType.black, 
-        Tile.TileType colisionTile = Tile.TileType.ice)
+    //setPenguinInstruction(펭귄종류, 조건 종류, 액션 종류, 충돌물체종류)
+    public void setPenguinInstruction(Penguin.PenguinType penguinType,
+        Instruction.Condition.ConditionType conditionType,
+        Instruction.Action.ActionType actionType,
+        int param = -1
+        )
     {
-        switch (conditionType)
-        {
-            case Instruction.Condition.ConditionType.always:
-                _instructionDictionary[penguinType].Add(new Instruction(
-                        new Instruction.Condition(conditionType),
-                        new Instruction.Action(actionType)
-                    ));
-                break;
-            case Instruction.Condition.ConditionType.penguinCollision:
-                _instructionDictionary[penguinType].Add(new Instruction(
-                        new Instruction.Condition(conditionType,colisionPenguin),
-                        new Instruction.Action(actionType)
-                    ));
-                break;
-            case Instruction.Condition.ConditionType.tileCollision:
-                _instructionDictionary[penguinType].Add(new Instruction(
-                        new Instruction.Condition(conditionType,colisionTile),
-                        new Instruction.Action(actionType)
-                    ));
-                break;
-            default:
-
-                break;
-        }
+        _instructionDictionary[penguinType].Add(new Instruction(
+            new Instruction.Condition(conditionType,param),
+            new Instruction.Action(actionType)
+            ));
     }
 
     //펭귄 instruction 리스트 반환

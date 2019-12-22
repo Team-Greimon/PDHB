@@ -9,7 +9,7 @@ public class Penguin : MonoBehaviour
         red = 0,
         black = 1,
     }
-
+    
     // StepManager 에 자기 자신도 이벤트 받도록 등록
     void OnEnable()
     {
@@ -29,7 +29,7 @@ public class Penguin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void onStep()

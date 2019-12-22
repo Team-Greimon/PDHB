@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Tile
 {
-    enum TileType
+    public enum TileType
     {
-        grass,
-        ice
+        grass = 0,
+        ice = 1
     }
 
     TileType _type;

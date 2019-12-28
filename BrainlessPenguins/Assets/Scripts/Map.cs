@@ -23,33 +23,24 @@ public class Tile
 
 public class Map
 {
-    public Tile getTile(int r, int c)
+    public Tile GetTile(int r, int c)
     {
-        if (r <= getHeight() && c <= getWidth())
+        if (r <= GetHeight() && c <= GetWidth())
         { 
             return _tiles[r][c];
         }
         return Tile.InvalidTile;
     }
 
-    public int getHeight()
+    public int GetHeight()
     {
         return _tiles.Count;
     }
 
-    public int getWidth()
+    public int GetWidth()
     {
         return _tiles[0] is null ? 0 : _tiles[0].Count;
     }
 
     List<List<Tile>> _tiles;
-}
-
-public class MapManager : Singleton<MapManager>
-{
-    public Tile getTile(int r, int c)
-    {
-        return _map.getTile(r, c);
-    }
-    protected Map _map;
 }

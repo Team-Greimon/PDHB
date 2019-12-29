@@ -6,6 +6,11 @@ public class Tile
 {
     public static readonly Tile InvalidTile = new Tile(TileType.invalid);
 
+    public Tile(int typeNum)
+    {
+        var type = (TileType)typeNum;
+        _type = type;
+    }
     public Tile(TileType type)
     {
         _type = type;
@@ -23,6 +28,11 @@ public class Tile
 
 public class Map
 {
+    public Map(List<List<Tile>> tiles)
+    {
+        _tiles = tiles;
+    }
+
     public Tile GetTile(int r, int c)
     {
         if (r <= GetHeight() && c <= GetWidth())

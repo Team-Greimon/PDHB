@@ -33,13 +33,19 @@ SpriteAtlas:
     - {fileID: 2800000, guid: b4c9500b8d4714aa7962aafed7cae5fc, type: 3}
     - {fileID: 2800000, guid: 3b98ddfc0a5c1476d99607d3470fcd3f, type: 3}
     - {fileID: 2800000, guid: 7df6969fc72664d30b51a6655b69b7e5, type: 3}
-    totalSpriteSurfaceArea: 0
+    totalSpriteSurfaceArea: 29925
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 00000000000000000000000000000000
+      Hash: d2e5ff56d1c85c363b9b404a0f94f8c4
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: b4c9500b8d4714aa7962aafed7cae5fc, type: 3}
+  - {fileID: 21300000, guid: 3b98ddfc0a5c1476d99607d3470fcd3f, type: 3}
+  - {fileID: 21300000, guid: 7df6969fc72664d30b51a6655b69b7e5, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - ice
+  - grass
+  - dirt
   m_Tag: TileAtlas
   m_IsVariant: 0

@@ -6,6 +6,11 @@ public class Tile
 {
     public static readonly Tile InvalidTile = new Tile(TileType.invalid);
 
+    public Tile(int typeNum)
+    {
+        var type = (TileType)typeNum;
+        _type = type;
+    }
     public Tile(TileType type)
     {
         _type = type;
@@ -15,7 +20,8 @@ public class Tile
     {
         invalid = 0,
         grass = 1,
-        ice = 2
+        ice = 2,
+        dirt = 3,
     }
 
     TileType _type;
@@ -23,33 +29,29 @@ public class Tile
 
 public class Map
 {
-    public Tile getTile(int r, int c)
+    public Map(List<List<Tile>> tiles)
     {
-        if (r <= getHeight() && c <= getWidth())
+        _tiles = tiles;
+    }
+
+    public Tile GetTile(int r, int c)
+    {
+        if (r <= GetHeight() && c <= GetWidth())
         { 
             return _tiles[r][c];
         }
         return Tile.InvalidTile;
     }
 
-    public int getHeight()
+    public int GetHeight()
     {
         return _tiles.Count;
     }
 
-    public int getWidth()
+    public int GetWidth()
     {
         return _tiles[0] is null ? 0 : _tiles[0].Count;
     }
 
     List<List<Tile>> _tiles;
-}
-
-public class MapManager : Singleton<MapManager>
-{
-    public Tile getTile(int r, int c)
-    {
-        return _map.getTile(r, c);
-    }
-    protected Map _map;
 }

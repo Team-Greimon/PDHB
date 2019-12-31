@@ -18,6 +18,6 @@ public class GameManager : Singleton<GameManager>
 
     void LoadLevel()
     {
-        MapManager.getInst().LoadMap(1);
+        MapManager.GetInst().LoadMap(1);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class MapManager : Singleton<MapManager>
 {
@@ -8,6 +9,12 @@ public class MapManager : Singleton<MapManager>
     {
         var map = GetMapFromFile(mapId);
         _map = map;
+        MakeMapOnScene();
+    }
+
+    protected void MakeMapOnScene()
+    {
+
     }
 
     protected Map GetMapFromFile(int mapId)
@@ -39,9 +46,37 @@ public class MapManager : Singleton<MapManager>
         return new Map(tiles);
     }
 
+    public Vector3 GetTileLocalPosition(int rowPos, int colPos)
+    {
+        return new Vector3(rowPos, colPos, 0);
+    }
+
     public Tile GetTile(int r, int c)
     {
         return _map.GetTile(r, c);
     }
     protected Map _map;
+
+    // tiles - todo: 구조적 개선 필요. tileData 클래스 생성
+    public Sprite GetSpriteForTileType(Tile.TileType tileType)
+    {
+        string spriteName = "";
+        switch (tileType)
+        {
+            case Tile.TileType.dirt:
+                spriteName = "dirt";
+                break;
+            case Tile.TileType.grass:
+                spriteName = "grass";
+                break;
+            case Tile.TileType.ice:
+                spriteName = "ice";
+                break;
+            default:
+                spriteName = "";
+                break;
+        }
+        return _tileAtlas.GetSprite(spriteName);
+    }
+    public SpriteAtlas _tileAtlas;
 }

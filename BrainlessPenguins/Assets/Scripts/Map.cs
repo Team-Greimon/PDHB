@@ -20,7 +20,8 @@ public class Tile
     {
         invalid = 0,
         grass = 1,
-        ice = 2
+        ice = 2,
+        dirt = 3,
     }
 
     TileType _type;

@@ -241,11 +241,6 @@ MonoBehaviour:
       type: 3}
     amountToPool: 100
     constantSize: 0
-  - poolName: ASDF
-    objectToPool: {fileID: 8420355220369083778, guid: c3797d8e623f7488d8790da8751b2569,
-      type: 3}
-    amountToPool: 50
-    constantSize: 1
 --- !u!114 &928358132
 MonoBehaviour:
   m_ObjectHideFlags: 0

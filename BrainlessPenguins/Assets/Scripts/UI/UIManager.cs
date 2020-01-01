@@ -11,7 +11,6 @@ public class UIManager : Singleton<UIManager>
     public Sprite _penguinPink;
     public GameObject _penguinBtn;
     public GameObject _instruction;
-    public int _penguinCount = 4;
     public GameObject _penguinContainer;
     public GameObject _instructionContainer;
     public Sprite _penguinBtnClicked;
@@ -21,7 +20,11 @@ public class UIManager : Singleton<UIManager>
     bool[] _isClickedPenguinBtnArray;
     int _currentSelectedPenguin = 0;
 
+    public int _penguinCount = 4;
+    public int _tileNumber = 4;
     public int _instructionNumber = 8;
+
+    public Sprite _tileSprite;
 
     public delegate void PenguinBtnClickEvent(int number);
     public static event PenguinBtnClickEvent penguinBtnClick;
@@ -29,12 +32,15 @@ public class UIManager : Singleton<UIManager>
     // Start is called before the first frame update
     void Start()
     {
+        _instructionNumber = _penguinCount + _tileNumber;
+
         penguinBtnClick += setInstruction;
         penguinBtnClick += penguinBtnOnClick;
 
         _penguinBtnArray = new GameObject[_penguinCount];
         _isClickedPenguinBtnArray = new bool[_penguinCount];
         _instructionArray = new List<List<GameObject>>();
+        _arrowContainer.SetActive(false);
 
         _currentSelectedPenguin = 0;
         for(int i = 0; i < _penguinCount; i++)
@@ -46,12 +52,23 @@ public class UIManager : Singleton<UIManager>
             _penguinBtnArray[i] = tempBtn;
 
             _instructionArray.Add(new List<GameObject>());
-            for(int j = 0; j < _instructionNumber; j++)
+            for(int j = 0; j < _tileNumber; j++)
             {
                 _instructionArray[i].Add(Instantiate(_instruction));
                 _instructionArray[i][j].transform.SetParent(_instructionContainer.transform);
                 _instructionArray[i][j].SetActive(false);
                 _instructionArray[i][j].GetComponent<UIInstructionBtn>()._index = new KeyValuePair<int, int>(i, j);
+                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._arrowContainer = _arrowContainer;
+                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._selfCondition.GetComponent<Image>().sprite = _tileSprite;
+            }
+            for(int j = _tileNumber; j < _tileNumber+_penguinCount; j++)
+            {
+                _instructionArray[i].Add(Instantiate(_instruction));
+                _instructionArray[i][j].transform.SetParent(_instructionContainer.transform);
+                _instructionArray[i][j].SetActive(false);
+                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._index = new KeyValuePair<int, int>(i, j);
+                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._arrowContainer = _arrowContainer;
+                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._selfCondition.GetComponent<Image>().sprite = _penguinGrey;
             }
         }
         setInstruction(0);

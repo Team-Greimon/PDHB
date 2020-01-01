@@ -166,6 +166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _arrowContainer: {fileID: 5779877584515174875, guid: fdff6b76ccba7b44989d3e997e2fcb76,
     type: 3}
+  _selfCondition: {fileID: 1693428476404228186}
+  _selfDirection: {fileID: 2978012527027336841}
 --- !u!1 &1693428476404228186
 GameObject:
   m_ObjectHideFlags: 0

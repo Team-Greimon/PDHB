@@ -6,10 +6,10 @@ using UnityEngine;
 [System.Serializable]
 public class ObjectPoolItem
 {
-    public GameObject objectToPool;
     public string poolName;
+    public GameObject objectToPool;
     public int amountToPool;
-    public bool constantSize = false;
+    public bool constantSize;
 }
 
 public class ObjectPoolManager : Singleton<ObjectPoolManager>
@@ -90,6 +90,11 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
     private GameObject CreatePooledObject(ObjectPoolItem item)
     {
+        if (!pooledObjects.ContainsKey(item.poolName))
+        {
+            pooledObjects[item.poolName] = new List<GameObject>();
+        }
+
         GameObject obj = Instantiate(item.objectToPool);
 
         // Get the parent for this pooled object and assign the new object to it

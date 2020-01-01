@@ -12,6 +12,7 @@ public class Penguin : MonoBehaviour
         _direction = direction;
 
         transform.position = MapManager.GetInst().GetTileLocalPosition(r, c);
+        gameObject.SetActive(true);
     }
 
     public enum PenguinType
@@ -30,11 +31,11 @@ public class Penguin : MonoBehaviour
     // StepManager 에 자기 자신도 이벤트 받도록 등록
     void OnEnable()
     {
-        StepManager.onStep += OnStep;
+        StepManager.OnStep += OnStep;
     }
     void OnDisable()
     {
-        StepManager.onStep -= OnStep;
+        StepManager.OnStep -= OnStep;
     }
 
     // Start is called before the first frame update

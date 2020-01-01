@@ -24,7 +24,7 @@ public class PenguinManager : Singleton<PenguinManager>
         
     }
 
-    HashSet<Penguin> _penguins;
+    HashSet<Penguin> _penguins = new HashSet<Penguin>();
     public GameObject _penguinPrefab;
 
 }

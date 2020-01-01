@@ -8,12 +8,11 @@ public class MapManager : Singleton<MapManager>
 {
     public void LoadMap(int mapId)
     {
-        var map = GetMapFromFile(mapId);
-        _map = map;
-        MakeMapOnScene();
+        ConstructMapFromFile(mapId);
+        MakeTilesOnScene();
     }
 
-    protected void MakeMapOnScene()
+    protected void MakeTilesOnScene()
     {
         _tileObjects = new List<List<TileObject>>();
         for (int r = 0; r < _map.GetHeight(); r++)
@@ -29,7 +28,7 @@ public class MapManager : Singleton<MapManager>
         }
     }
 
-    protected Map GetMapFromFile(int mapId)
+    protected void ConstructMapFromFile(int mapId)
     {
         string fileName = string.Format("map{0,4:D4}", mapId);
         List<List<Tile>> tiles = new List<List<Tile>>();
@@ -37,40 +36,43 @@ public class MapManager : Singleton<MapManager>
         {
             // string word = File.ReadAllText(txtFilePath);
             TextAsset textAsset = Resources.Load<TextAsset>(fileName);
-            var stringStream = StringUtils.GenerateStreamFromString(textAsset.text);
-            using var binaryStream = new BinaryReader(stringStream);
-
-            int R = binaryStream.ReadInt32();
-            int C = binaryStream.ReadInt32();
+            IntegerStream integerStream = new IntegerStream(textAsset.text);
+          
+            int R = integerStream.Read();
+            int C = integerStream.Read();
             for (int curR = 0; curR < R; curR++)
             {
                 List<Tile> tileLine = new List<Tile>();
                 for (int curC = 0; curC < C; curC++)
                 {
-                    int tileTypeNum = binaryStream.ReadInt32();
+                    int tileTypeNum = integerStream.Read();
                     tileLine.Add(new Tile((Tile.TileType)tileTypeNum));
                 }
+                tiles.Add(tileLine);
             }
+            _map = new Map(tiles);
 
-            int penguinNum = binaryStream.ReadInt32();
+            int penguinNum = integerStream.Read();
             for (int curPen = 0; curPen < penguinNum; curPen++)
             {
-                int pen_r = binaryStream.ReadInt32();
-                int pen_c = binaryStream.ReadInt32();
-                int pen_type = binaryStream.ReadInt32();
-                int pen_direction = binaryStream.ReadInt32();
+                int pen_r = integerStream.Read();
+                int pen_c = integerStream.Read();
+                int pen_type = integerStream.Read();
+                int pen_direction = integerStream.Read();
                 PenguinManager.GetInst().MakePenguin(
                     pen_r,
                     pen_c,
-                    (Penguin.PenguinType) pen_type,
-                    (Penguin.Direction) pen_direction);
+                    (Penguin.PenguinType)pen_type,
+                    (Penguin.Direction)pen_direction);
             }
+            
         }
-        catch
+        catch (System.Exception e)
         {
             Debug.LogError(fileName + " 을 읽는 데에 실패하였습니다.");
+            Debug.LogError(e.Message);
+            Debug.LogError(e.StackTrace);
         }
-        return new Map(tiles);
     }
 
     public Vector3 GetTileLocalPosition(int rowPos, int colPos)

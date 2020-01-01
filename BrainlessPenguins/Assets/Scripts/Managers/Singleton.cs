@@ -10,7 +10,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             _instance = FindObjectOfType<T>();
             if (!_instance)
-                Debug.LogError("There needs to be one active GameManager script on a GameObject in your scene.");
+            {
+                var errMsg = string.Format("There needs to be one active Manager script for {0} in your scene.", typeof(T).Name);
+                Debug.LogError(errMsg);
+            }
         }
 
         return _instance;

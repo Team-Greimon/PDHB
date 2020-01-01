@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIArrowContainer : MonoBehaviour
 {
+    GameObject _instructionBtn;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +15,9 @@ public class UIArrowContainer : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void onClick()
+    {
     }
 }

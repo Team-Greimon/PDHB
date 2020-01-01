@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+    public GameObject _arrowContainer;
+
+    public Sprite _penguinGrey;
+    public Sprite _penguinPink;
     public GameObject _penguinBtn;
     public GameObject _instruction;
     public int _penguinCount = 4;
@@ -13,10 +17,11 @@ public class UIManager : Singleton<UIManager>
     public Sprite _penguinBtnClicked;
     public Sprite _penguinBtnUnClicked;
     GameObject[] _penguinBtnArray;
+    List<List<GameObject>> _instructionArray;
     bool[] _isClickedPenguinBtnArray;
-    int currentSelectedPenguin = 0;
+    int _currentSelectedPenguin = 0;
 
-    public int _instructionNumber = 4;
+    public int _instructionNumber = 8;
 
     public delegate void PenguinBtnClickEvent(int number);
     public static event PenguinBtnClickEvent penguinBtnClick;
@@ -24,24 +29,33 @@ public class UIManager : Singleton<UIManager>
     // Start is called before the first frame update
     void Start()
     {
-        penguinBtnClick += penguinBtnOnClick;
         penguinBtnClick += setInstruction;
+        penguinBtnClick += penguinBtnOnClick;
 
         _penguinBtnArray = new GameObject[_penguinCount];
         _isClickedPenguinBtnArray = new bool[_penguinCount];
-        currentSelectedPenguin = 0;
+        _instructionArray = new List<List<GameObject>>();
+
+        _currentSelectedPenguin = 0;
         for(int i = 0; i < _penguinCount; i++)
         {
-
             _isClickedPenguinBtnArray[i] = false;
             GameObject tempBtn = Instantiate(_penguinBtn);
             tempBtn.transform.SetParent(_penguinContainer.transform);
             tempBtn.GetComponent<UIPenguinBtn>()._myNumber = i;
             _penguinBtnArray[i] = tempBtn;
-        }
 
-        flipClickImage(0);
+            _instructionArray.Add(new List<GameObject>());
+            for(int j = 0; j < _instructionNumber; j++)
+            {
+                _instructionArray[i].Add(Instantiate(_instruction));
+                _instructionArray[i][j].transform.SetParent(_instructionContainer.transform);
+                _instructionArray[i][j].SetActive(false);
+                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._index = new KeyValuePair<int, int>(i, j);
+            }
+        }
         setInstruction(0);
+        flipClickImage(0);
     }
 
     // Update is called once per frame
@@ -66,20 +80,20 @@ public class UIManager : Singleton<UIManager>
 
     public void penguinBtnOnClick(int number)
     {
-        flipClickImage(currentSelectedPenguin);
+        flipClickImage(_currentSelectedPenguin);
         flipClickImage(number);
-        currentSelectedPenguin = number;
+        _currentSelectedPenguin = number;
     }
     public void setInstruction(int number)
     {
-        foreach(Transform instruction in _instructionContainer.transform)
+        foreach(GameObject instruction in _instructionArray[_currentSelectedPenguin])
         {
-            Destroy(instruction.gameObject);
+            instruction.SetActive(false);
         }
-        for (int j = 0; j < _instructionNumber; j++)
+        foreach(GameObject instruction in _instructionArray[number])
         {
-            GameObject tempInstruction = Instantiate(_instruction);
-            tempInstruction.transform.SetParent(_instructionContainer.transform);
+            instruction.SetActive(true);
         }
+
     }
 }

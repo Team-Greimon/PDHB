@@ -24,7 +24,7 @@ public class Tile
         dirt = 3,
     }
 
-    TileType _type;
+    public TileType _type { get; }
 }
 
 public class Map
@@ -53,5 +53,5 @@ public class Map
         return _tiles[0] is null ? 0 : _tiles[0].Count;
     }
 
-    List<List<Tile>> _tiles;
+    public List<List<Tile>> _tiles { get; }
 }

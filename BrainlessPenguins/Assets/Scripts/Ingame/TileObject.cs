@@ -21,6 +21,7 @@ public class TileObject : MonoBehaviour
         transform.position = MapManager.GetInst().GetTileLocalPosition(rowPos, colPos);
 
         SetTile(tileType);
+        gameObject.SetActive(true);
     }
 
     public void SetTile(Tile.TileType tileType)
@@ -29,11 +30,6 @@ public class TileObject : MonoBehaviour
 
         var sprite = MapManager.GetInst().GetSpriteForTileType(tileType);
         _spriteRenderer.sprite = sprite;
-    }
-
-    private static string GetSpriteName(Tile.TileType tileType)
-    {
-        return "";
     }
 
     // Start is called before the first frame update

@@ -14,7 +14,18 @@ public class MapManager : Singleton<MapManager>
 
     protected void MakeMapOnScene()
     {
-
+        _tileObjects = new List<List<TileObject>>();
+        for (int r = 0; r < _map.GetHeight(); r++)
+        {
+            _tileObjects.Add(new List<TileObject>());
+            for (int c = 0; c < _map.GetWidth(); c++)
+            {
+                var gameObj = ObjectPoolManager.GetInst().GetPooledObject("Tile");
+                var tileObj = gameObj.GetComponent<TileObject>();
+                tileObj.Initialize(_map.GetTile(r, c)._type, r, c);
+                _tileObjects[r].Add(tileObj);
+            }
+        }
     }
 
     protected Map GetMapFromFile(int mapId)
@@ -48,14 +59,20 @@ public class MapManager : Singleton<MapManager>
 
     public Vector3 GetTileLocalPosition(int rowPos, int colPos)
     {
-        return new Vector3(rowPos, colPos, 0);
+        return new Vector3(colPos, _map.GetHeight() - 1 - rowPos, 0);
     }
 
     public Tile GetTile(int r, int c)
     {
         return _map.GetTile(r, c);
     }
+    public TileObject GetTileObject(int r, int c)
+    {
+        return _tileObjects[r][c];
+    }
+    // todo: tileObject 와 실제 tile 간의 관계 가능하다면 개선
     protected Map _map;
+    protected List<List<TileObject>> _tileObjects;
 
     // tiles - todo: 구조적 개선 필요. tileData 클래스 생성
     public Sprite GetSpriteForTileType(Tile.TileType tileType)

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PenguinManager : Singleton<PenguinManager>
 {
-    public void MakePenguin(int x, int y, Penguin.PenguinType penguinType)
+    public void MakePenguin(int r, int c, Penguin.PenguinType penguinType, Penguin.Direction direction)
     {
-        GameObject newObject = Instantiate(_penguinPrefab) as GameObject;
-        Penguin newPenguin = newObject.GetComponent<Penguin>();
+        var gameObj = ObjectPoolManager.GetInst().GetPooledObject("Penguin");
+        Penguin newPenguin = gameObj.GetComponent<Penguin>();
+        newPenguin.Initialize(r, c, penguinType, direction);
         _penguins.Add(newPenguin);
     }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -36,18 +37,33 @@ public class MapManager : Singleton<MapManager>
         {
             // string word = File.ReadAllText(txtFilePath);
             TextAsset textAsset = Resources.Load<TextAsset>(fileName);
-            string[] lines = textAsset.text.Split('\n');
+            var stringStream = StringUtils.GenerateStreamFromString(textAsset.text);
+            using var binaryStream = new BinaryReader(stringStream);
 
-            foreach (string line in lines)
+            int R = binaryStream.ReadInt32();
+            int C = binaryStream.ReadInt32();
+            for (int curR = 0; curR < R; curR++)
             {
                 List<Tile> tileLine = new List<Tile>();
-                var words = line.Split();
-                foreach (string word in words)
+                for (int curC = 0; curC < C; curC++)
                 {
-                    int tileTypeNum = int.Parse(word);
+                    int tileTypeNum = binaryStream.ReadInt32();
                     tileLine.Add(new Tile((Tile.TileType)tileTypeNum));
                 }
-                tiles.Add(tileLine);
+            }
+
+            int penguinNum = binaryStream.ReadInt32();
+            for (int curPen = 0; curPen < penguinNum; curPen++)
+            {
+                int pen_r = binaryStream.ReadInt32();
+                int pen_c = binaryStream.ReadInt32();
+                int pen_type = binaryStream.ReadInt32();
+                int pen_direction = binaryStream.ReadInt32();
+                PenguinManager.GetInst().MakePenguin(
+                    pen_r,
+                    pen_c,
+                    (Penguin.PenguinType) pen_type,
+                    (Penguin.Direction) pen_direction);
             }
         }
         catch

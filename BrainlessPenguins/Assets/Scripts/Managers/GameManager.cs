@@ -16,7 +16,7 @@ public class GameManager : Singleton<GameManager>
         
     }
 
-    void SetGameRunning(bool gameRunning)
+    public void SetGameRunning(bool gameRunning)
     {
         _gameRunning = gameRunning;
     }
@@ -26,5 +26,5 @@ public class GameManager : Singleton<GameManager>
         MapManager.GetInst().LoadMap(1);
     }
 
-    public bool _gameRunning { get; }
+    public bool _gameRunning { get; set; }
 }

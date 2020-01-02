@@ -26,7 +26,7 @@ public class Instruction
     {
         public enum ActionType
         {
-            turn
+            turn              
         }
         public ActionType _actionType;
 

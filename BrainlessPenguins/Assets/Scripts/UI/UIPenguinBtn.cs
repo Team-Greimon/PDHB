@@ -7,6 +7,6 @@ public class UIPenguinBtn : MonoBehaviour
     public int _myNumber = 0;
     public void onClick()
     {
-        UIManager.btnEventTrigger(_myNumber);
+        UIManager.GetInst().btnEventTrigger(_myNumber);
     }
 }

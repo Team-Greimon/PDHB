@@ -52,7 +52,7 @@ public class InstructionManager : Singleton<InstructionManager>
     // Start is called before the first frame update
     void Start()
     {
-        StepManager.onStep += onStep;
+        StepManager.OnStep += onStep;
     }
 
     // Update is called once per frame

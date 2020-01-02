@@ -31,7 +31,12 @@ public class Penguin : MonoBehaviour
         west = 2,
         south = 3,
     }
-    // x, y 가 아닌 r, c임 주ㅇ
+    public Direction AddDirection(Direction orig, int turn)
+    {
+        orig += turn;
+        return (Direction)(((int)orig + 4) % 4);
+    }
+    // x, y 가 아닌 r, c임 주의 
     public static readonly Dictionary<Direction, System.Tuple<int, int>> DirToVec =
         new Dictionary<Direction, Tuple<int, int>>
         {
@@ -82,6 +87,10 @@ public class Penguin : MonoBehaviour
     void EndStep()
     {
         transform.position = MapManager.GetInst().GetTileLocalPosition(_r, _c);
+        if(MapManager.GetInst().IsTileOutOfBounds(_r, _c))
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     protected void CheckConditionsMet()
@@ -92,14 +101,14 @@ public class Penguin : MonoBehaviour
         foreach (var inst in instructions)
         {
             var condition = inst._condition;
-            if (checkCondition(condition._conditionType, condition._param))
+            if (CheckCondition(condition._conditionType, condition._param))
             {
                 _instructionsToRun.Add(condition._conditionType, inst);
             }
         }
 
     }
-    protected bool checkCondition(condType conditionType, int param)
+    protected bool CheckCondition(condType conditionType, int param)
     {
         switch (conditionType)
         {
@@ -129,8 +138,7 @@ public class Penguin : MonoBehaviour
         switch (action._actionType)
         {
             case actionType.turn:
-                _direction += action._param;
-                _direction = (Direction)(((int)_direction + 4) % 4);
+                _direction = AddDirection(_direction, action._param);
                 break;
 
             case actionType.moveForward:
@@ -141,6 +149,10 @@ public class Penguin : MonoBehaviour
 
             case actionType.color:
                 MapManager.GetInst().SetTile(_r, _c, (Tile.TileType)action._param);
+                break;
+
+            case actionType.createPenguin:
+                PenguinManager.GetInst().MakePenguin(_r, _c, (Penguin.PenguinType)action._param, AddDirection(_direction, -1));
                 break;
 
             default:
@@ -156,15 +168,32 @@ public class Penguin : MonoBehaviour
             var ac = new Instruction.Action(actionType.moveForward);
             ret.Add(new Instruction(cond, ac));
         }
+
+        if (_penguinType == PenguinType.black)
         {
-            var cond = new Instruction.Condition(condType.tileCollision, 1);
-            var ac = new Instruction.Action(actionType.turn, -1);
-            ret.Add(new Instruction(cond, ac));
+            {
+                var cond = new Instruction.Condition(condType.tileCollision, 1);
+                var ac = new Instruction.Action(actionType.turn, -1);
+                ret.Add(new Instruction(cond, ac));
+            }
+            {
+                var cond = new Instruction.Condition(condType.tileCollision, 2);
+                var ac = new Instruction.Action(actionType.createPenguin, 2);
+                ret.Add(new Instruction(cond, ac));
+            }
         }
+        else if (_penguinType == PenguinType.pink)
         {
-            var cond = new Instruction.Condition(condType.tileCollision, 3);
-            var ac = new Instruction.Action(actionType.color, 2);
-            ret.Add(new Instruction(cond, ac));
+            {
+                var cond = new Instruction.Condition(condType.tileCollision, 3);
+                var ac = new Instruction.Action(actionType.color, 1);
+                ret.Add(new Instruction(cond, ac));
+            }
+            {
+                var cond = new Instruction.Condition(condType.tileCollision, 2);
+                var ac = new Instruction.Action(actionType.turn, -1);
+                ret.Add(new Instruction(cond, ac));
+            }
         }
         return ret;
     }

@@ -29,7 +29,8 @@ public class Instruction
         {
             turn,
             moveForward,
-            color
+            color,
+            createPenguin
         }
         public ActionType _actionType;
         public int _param;

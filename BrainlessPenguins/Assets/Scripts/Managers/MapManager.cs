@@ -85,6 +85,12 @@ public class MapManager : Singleton<MapManager>
         _map.GetTile(r, c)._type = tileType;
         GetTileObject(r, c).SetTile(tileType);
     }
+    public bool IsTileOutOfBounds(int r, int c)
+    {
+        bool ret = r < 0 || r >= _map.GetHeight();
+        ret |= c < 0 || c >= _map.GetWidth();
+        return ret;
+    }
     public Tile GetTile(int r, int c)
     {
         return _map.GetTile(r, c);

@@ -16,7 +16,7 @@ public class UIManager : Singleton<UIManager>
     public Sprite _penguinBtnClicked;
     public Sprite _penguinBtnUnClicked;
     GameObject[] _penguinBtnArray;
-    List<List<GameObject>> _instructionArray;
+    public List<List<GameObject>> _instructionArray;
     bool[] _isClickedPenguinBtnArray;
     int _currentSelectedPenguin = 0;
 
@@ -57,18 +57,28 @@ public class UIManager : Singleton<UIManager>
                 _instructionArray[i].Add(Instantiate(_instruction));
                 _instructionArray[i][j].transform.SetParent(_instructionContainer.transform);
                 _instructionArray[i][j].SetActive(false);
-                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._index = new KeyValuePair<int, int>(i, j);
-                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._arrowContainer = _arrowContainer;
-                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._selfCondition.GetComponent<Image>().sprite = _tileSprite;
+
+                UIInstructionBtn _access = _instructionArray[i][j].GetComponent<UIInstructionBtn>();
+
+                _access._index = new KeyValuePair<int, int>(i, j);
+                _access._arrowContainer = _arrowContainer;
+                _access._selfCondition.GetComponent<Image>().sprite = _tileSprite;
+                _access._selfConditionType = Instruction.Condition.ConditionType.tileCollision;
+                _access._param = j;
             }
             for(int j = _tileNumber; j < _tileNumber+_penguinCount; j++)
             {
                 _instructionArray[i].Add(Instantiate(_instruction));
                 _instructionArray[i][j].transform.SetParent(_instructionContainer.transform);
                 _instructionArray[i][j].SetActive(false);
-                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._index = new KeyValuePair<int, int>(i, j);
-                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._arrowContainer = _arrowContainer;
-                _instructionArray[i][j].GetComponent<UIInstructionBtn>()._selfCondition.GetComponent<Image>().sprite = _penguinGrey;
+
+                UIInstructionBtn _access = _instructionArray[i][j].GetComponent<UIInstructionBtn>();
+
+                _access._index = new KeyValuePair<int, int>(i, j);
+                _access._arrowContainer = _arrowContainer;
+                _access._selfCondition.GetComponent<Image>().sprite = _penguinGrey;
+                _access._selfConditionType = Instruction.Condition.ConditionType.penguinCollision;
+                _access._param = j-_tileNumber;
             }
         }
         setInstruction(0);

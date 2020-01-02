@@ -16,8 +16,15 @@ public class GameManager : Singleton<GameManager>
         
     }
 
+    void SetGameRunning(bool gameRunning)
+    {
+        _gameRunning = gameRunning;
+    }
+
     void LoadLevel()
     {
         MapManager.GetInst().LoadMap(1);
     }
+
+    public bool _gameRunning { get; }
 }

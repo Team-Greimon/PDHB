@@ -20,7 +20,7 @@ public class StepManager : Singleton<StepManager>
     // Update is called once per frame
     void Update()
     {
-        if(_timer.Update(Time.deltaTime))
+        if(GameManager.GetInst()._gameRunning && _timer.Update(Time.deltaTime))
         {
             BeforeStep?.Invoke();
             OnStep?.Invoke();

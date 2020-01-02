@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UIInstructionBtn : MonoBehaviour
 {
-    public 
     public GameObject _arrowContainer;
     public KeyValuePair<int, int> _index = new KeyValuePair<int, int>(-1, -1);
     public Instruction _instruction;

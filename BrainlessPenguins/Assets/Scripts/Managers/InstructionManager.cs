@@ -6,16 +6,17 @@ public class Instruction
 {
     public class Condition
     {
+        // 먼저 올수록 먼저 체크된다
         public enum ConditionType
         {
             tileCollision,
             penguinCollision,
             always
         }
-        ConditionType _conditionType;
+        public ConditionType _conditionType;
         public int _param;
 
-        public Condition(ConditionType conditionType,int param)
+        public Condition(ConditionType conditionType, int param = -1)
         {
             _conditionType = conditionType;
             _param = param;
@@ -26,13 +27,17 @@ public class Instruction
     {
         public enum ActionType
         {
-            turn              
+            turn,
+            moveForward,
+            color
         }
         public ActionType _actionType;
+        public int _param;
 
-        public Action(ActionType actionType)
+        public Action(ActionType actionType, int param = -1)
         {
             _actionType = actionType;
+            _param = param;
         }
     }
 
@@ -73,9 +78,10 @@ public class InstructionManager : Singleton<InstructionManager>
         int param = -1
         )
     {
+        // Fixme: ActionType 에도 param 추가한 것 반영 (0은 더미)
         _instructionDictionary[penguinType].Add(new Instruction(
             new Instruction.Condition(conditionType,param),
-            new Instruction.Action(actionType)
+            new Instruction.Action(actionType, 0)
             ));
     }
 

@@ -80,6 +80,11 @@ public class MapManager : Singleton<MapManager>
         return new Vector3(colPos, _map.GetHeight() - 1 - rowPos, 0);
     }
 
+    public void SetTile(int r, int c, Tile.TileType tileType)
+    {
+        _map.GetTile(r, c)._type = tileType;
+        GetTileObject(r, c).SetTile(tileType);
+    }
     public Tile GetTile(int r, int c)
     {
         return _map.GetTile(r, c);

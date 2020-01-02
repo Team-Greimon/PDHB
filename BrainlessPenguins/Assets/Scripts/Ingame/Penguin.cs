@@ -139,6 +139,10 @@ public class Penguin : MonoBehaviour
                 _c += vecToMove.Item2;
                 break;
 
+            case actionType.color:
+                MapManager.GetInst().SetTile(_r, _c, (Tile.TileType)action._param);
+                break;
+
             default:
                 break;
         }
@@ -155,6 +159,11 @@ public class Penguin : MonoBehaviour
         {
             var cond = new Instruction.Condition(condType.tileCollision, 1);
             var ac = new Instruction.Action(actionType.turn, -1);
+            ret.Add(new Instruction(cond, ac));
+        }
+        {
+            var cond = new Instruction.Condition(condType.tileCollision, 3);
+            var ac = new Instruction.Action(actionType.color, 2);
             ret.Add(new Instruction(cond, ac));
         }
         return ret;

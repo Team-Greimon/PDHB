@@ -24,7 +24,7 @@ public class Tile
         dirt = 3,
     }
 
-    public TileType _type { get; }
+    public TileType _type { get; set; }
 }
 
 public class Map

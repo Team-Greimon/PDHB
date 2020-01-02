@@ -5,21 +5,24 @@ using UnityEngine.UI;
 
 public class UIArrowContainer : MonoBehaviour
 {
-    GameObject _instructionBtn;
+    public GameObject _instructionBtn;
     float _width;
     float _height;
     
     // Start is called before the first frame update
     void Start()
     {
+        UIManager.GetInst().actionBtnClick += actionBtnOnClick;
         _width = gameObject.GetComponent<RectTransform>().rect.width;
         _height = gameObject.GetComponent<RectTransform>().rect.height;
 
         _width /= 2;
         _height /= 2;
-        
-        foreach(GameObject child in transform)
+        int i = 0;
+        foreach(Transform child in transform)
         {
+            child.gameObject.GetComponent<UIArrowActionBtn>()._actionType = i;
+            i++;
         }
     }
 
@@ -39,8 +42,10 @@ public class UIArrowContainer : MonoBehaviour
         }
     }
 
-    public void onClick()
+    public void actionBtnOnClick(int number)
     {
-
+        _instructionBtn.GetComponent<UIInstructionBtn>()._selfActionType = (Instruction.Action.ActionType)number;
+        _instructionBtn.GetComponent<UIInstructionBtn>()._selfDirection.GetComponent<Image>().sprite = GetComponent<Image>().sprite;
+        gameObject.SetActive(false);
     }
 }

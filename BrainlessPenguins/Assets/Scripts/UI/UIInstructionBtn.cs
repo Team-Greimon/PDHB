@@ -30,6 +30,7 @@ public class UIInstructionBtn : MonoBehaviour
     {
         _arrowContainer.transform.position = new Vector2(transform.position.x-20,transform.position.y+50);
         _arrowContainer.SetActive(true);
+        _arrowContainer.GetComponent<UIArrowContainer>()._instructionBtn = gameObject;
     }
 
 }

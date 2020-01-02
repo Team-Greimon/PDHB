@@ -27,7 +27,10 @@ public class UIManager : Singleton<UIManager>
     public Sprite _tileSprite;
 
     public delegate void PenguinBtnClickEvent(int number);
-    public static event PenguinBtnClickEvent penguinBtnClick;
+    public event PenguinBtnClickEvent penguinBtnClick;
+
+    public delegate void ActionBtnClickEvent(int number);
+    public event ActionBtnClickEvent actionBtnClick;
 
     // Start is called before the first frame update
     void Start()
@@ -100,9 +103,13 @@ public class UIManager : Singleton<UIManager>
             _penguinBtnArray[number].GetComponent<Image>().sprite = _penguinBtnUnClicked;
     }
     
-    public static void btnEventTrigger(int number)
+    public void btnEventTrigger(int number)
     {
         penguinBtnClick(number);
+    }
+    public void actionBtnEventTrigger(int number)
+    {
+        actionBtnClick(number);
     }
 
     public void penguinBtnOnClick(int number)

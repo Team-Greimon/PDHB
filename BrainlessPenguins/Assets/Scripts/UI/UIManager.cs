@@ -29,7 +29,7 @@ public class UIManager : Singleton<UIManager>
     public delegate void PenguinBtnClickEvent(int number);
     public event PenguinBtnClickEvent penguinBtnClick;
 
-    public delegate void ActionBtnClickEvent(int number);
+    public delegate void ActionBtnClickEvent(int number,int param,int btnID);
     public event ActionBtnClickEvent actionBtnClick;
 
     // Start is called before the first frame update
@@ -107,9 +107,9 @@ public class UIManager : Singleton<UIManager>
     {
         penguinBtnClick(number);
     }
-    public void actionBtnEventTrigger(int number)
+    public void actionBtnEventTrigger(int number,int param,int btnID)
     {
-        actionBtnClick(number);
+        actionBtnClick(number,param,btnID);
     }
 
     public void penguinBtnOnClick(int number)

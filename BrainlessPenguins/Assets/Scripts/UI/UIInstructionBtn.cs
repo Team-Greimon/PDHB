@@ -17,6 +17,7 @@ public class UIInstructionBtn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _selfActionType = Instruction.Action.ActionType.nullAction;
         _selfDirection.GetComponent<Image>().sprite = null;
     }
 

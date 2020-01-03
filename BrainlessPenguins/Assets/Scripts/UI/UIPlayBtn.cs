@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class UIPlayBtn : MonoBehaviour
 {
-    GameObject UIManager;
-
+    bool _isStart = false;
+    bool _isChecked = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,13 +20,35 @@ public class UIPlayBtn : MonoBehaviour
 
     public void OnClick()
     {
-        foreach(List<GameObject> list in UIManager.GetComponent<UIManager>()._instructionArray)
+        if (_isStart)
         {
-            foreach(GameObject instruction in list)
+            GameManager.GetInst().SetGameRunning(false);
+        }
+        else
+        {
+            _isChecked = true;
+            foreach (List<GameObject> list in UIManager.GetInst()._instructionArray)
             {
-                UIInstructionBtn temp = instruction.GetComponent<UIInstructionBtn>();
-                InstructionManager.GetInst().setPenguinInstruction(temp._selfPenguinType,temp._selfConditionType,temp._selfActionType,temp._param);
+                foreach (GameObject instruction in list)
+                {
+                    UIInstructionBtn temp = instruction.GetComponent<UIInstructionBtn>();
+
+                    if (temp._selfActionType != Instruction.Action.ActionType.nullAction)
+                    {
+                        InstructionManager.GetInst().setPenguinInstruction(temp._selfPenguinType, temp._selfConditionType, temp._selfActionType, temp._param);                        
+                    }
+                    else
+                    {
+                        _isChecked = false;
+                        Debug.Log("Set All Action");
+                    }
+                }
+            }
+            if (_isChecked)
+            {
+                GameManager.GetInst().SetGameRunning(true);
             }
         }
+        _isStart = !_isStart;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Instruction
 {
@@ -30,7 +31,8 @@ public class Instruction
             turn,
             moveForward,
             color,
-            createPenguin
+            createPenguin,
+            nullAction
         }
         public ActionType _actionType;
         public int _param;
@@ -58,16 +60,15 @@ public class InstructionManager : Singleton<InstructionManager>
     // Start is called before the first frame update
     void Start()
     {
-        StepManager.OnStep += onStep;
+        _instructionDictionary = new Dictionary<Penguin.PenguinType, List<Instruction>>();
+        foreach(Penguin.PenguinType penguinType in Enum.GetValues(typeof(Penguin.PenguinType)))
+        {
+            _instructionDictionary[penguinType] = new List<Instruction>();
+        }
     }
 
     // Update is called once per frame
     void Update()
-    {
-
-    }
-
-    void onStep()
     {
 
     }

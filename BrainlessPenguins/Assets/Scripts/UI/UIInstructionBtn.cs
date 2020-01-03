@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class UIInstructionBtn : MonoBehaviour
 {
     public GameObject _arrowContainer;
-    public KeyValuePair<int, int> _index = new KeyValuePair<int, int>(-1, -1);
     public Instruction _instruction;
     public Penguin.PenguinType _selfPenguinType;
     public Instruction.Condition.ConditionType _selfConditionType;

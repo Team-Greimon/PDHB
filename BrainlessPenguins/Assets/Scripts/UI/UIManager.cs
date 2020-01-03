@@ -20,9 +20,9 @@ public class UIManager : Singleton<UIManager>
     bool[] _isClickedPenguinBtnArray;
     int _currentSelectedPenguin = 0;
 
-    public int _penguinCount;
-    public int _tileNumber;
-    public int _instructionNumber;
+    int _penguinCount;
+    int _tileNumber;
+    int _instructionNumber;
 
     public Sprite _tileSprite;
 
@@ -38,6 +38,8 @@ public class UIManager : Singleton<UIManager>
     // Start is called before the first frame update
     void Start()
     {
+        _penguinCount = System.Enum.GetValues(typeof(Penguin.PenguinType)).Length;
+        _tileNumber = System.Enum.GetValues(typeof(Tile.TileType)).Length;
         _instructionNumber = _penguinCount + _tileNumber;
 
         penguinBtnClick += setInstruction;
@@ -49,7 +51,9 @@ public class UIManager : Singleton<UIManager>
         _arrowContainer.SetActive(false);
 
         _currentSelectedPenguin = 0;
-        for(int i = 0; i < _penguinCount; i++)
+
+        var penguinTypeValues = System.Enum.GetValues(typeof(Penguin.PenguinType));
+        foreach (int i in penguinTypeValues)
         {
             _isClickedPenguinBtnArray[i] = false;
             GameObject tempBtn = Instantiate(_penguinBtn);
@@ -58,41 +62,42 @@ public class UIManager : Singleton<UIManager>
             _penguinBtnArray[i] = tempBtn;
 
             _instructionArray.Add(new List<GameObject>());
-            for(int j = 0; j < _tileNumber; j++)
+
+            var tileTypeValues = System.Enum.GetValues(typeof(Tile.TileType));
+            foreach (int tileTypeVal in tileTypeValues)
             {
-                _instructionArray[i].Add(Instantiate(_instruction));
-                _instructionArray[i][j].transform.SetParent(_instructionContainer.transform);
-                _instructionArray[i][j].SetActive(false);
+                if ((Tile.TileType)tileTypeVal == Tile.TileType.invalid) continue;
 
-                UIInstructionBtn _access = _instructionArray[i][j].GetComponent<UIInstructionBtn>();
-
-                _access._index = new KeyValuePair<int, int>(i, j);
-                _access._selfPenguinType = (Penguin.PenguinType)i;
-                _access._arrowContainer = _arrowContainer;
-                _access._selfActionType = Instruction.Action.ActionType.nullAction;
-                _access._selfCondition.GetComponent<Image>().sprite = _tileSprite;
-                _access._selfConditionType = Instruction.Condition.ConditionType.tileCollision;
-                _access._conditionParam = j + 1;
+                var access = AddInstructionBtn(i, tileTypeVal);
+                access._selfCondition.GetComponent<Image>().sprite = _tileSprite;
+                access._selfConditionType = Instruction.Condition.ConditionType.tileCollision;
             }
-            for(int j = _tileNumber; j < _tileNumber+_penguinCount; j++)
+            foreach (int penguinTypeVal in penguinTypeValues)
             {
-                _instructionArray[i].Add(Instantiate(_instruction));
-                _instructionArray[i][j].transform.SetParent(_instructionContainer.transform);
-                _instructionArray[i][j].SetActive(false);
-
-                UIInstructionBtn _access = _instructionArray[i][j].GetComponent<UIInstructionBtn>();
-
-                _access._index = new KeyValuePair<int, int>(i, j);
-                _access._selfPenguinType = (Penguin.PenguinType)i;
-                _access._arrowContainer = _arrowContainer;
-                _access._selfActionType = Instruction.Action.ActionType.nullAction;
-                _access._selfCondition.GetComponent<Image>().sprite = _penguinGrey;
-                _access._selfConditionType = Instruction.Condition.ConditionType.penguinCollision;
-                _access._conditionParam = j + 1-_tileNumber;
+                var access = AddInstructionBtn(i, penguinTypeVal);
+                access._selfCondition.GetComponent<Image>().sprite = _penguinGrey;
+                access._selfConditionType = Instruction.Condition.ConditionType.penguinCollision;
             }
         }
         setInstruction(0);
         flipClickImage(0);
+    }
+
+    UIInstructionBtn AddInstructionBtn(int penguinType, int conditionParam)
+    {
+        var gameObj = Instantiate(_instruction);
+        _instructionArray[penguinType].Add(gameObj);
+        gameObj.transform.SetParent(_instructionContainer.transform);
+        gameObj.SetActive(false);
+
+        UIInstructionBtn access = gameObj.GetComponent<UIInstructionBtn>();
+
+        access._selfPenguinType = (Penguin.PenguinType)penguinType;
+        access._arrowContainer = _arrowContainer;
+        access._selfActionType = Instruction.Action.ActionType.nullAction;
+        access._conditionParam = conditionParam;
+
+        return access;
     }
 
     // Update is called once per frame

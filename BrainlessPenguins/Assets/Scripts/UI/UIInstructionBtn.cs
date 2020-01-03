@@ -11,7 +11,8 @@ public class UIInstructionBtn : MonoBehaviour
     public Penguin.PenguinType _selfPenguinType;
     public Instruction.Condition.ConditionType _selfConditionType;
     public Instruction.Action.ActionType _selfActionType;
-    public int _param = -1;
+    public int _actionParam = -1;
+    public int _conditionParam = -1;
     public GameObject _selfCondition;
     public GameObject _selfDirection;
     // Start is called before the first frame update

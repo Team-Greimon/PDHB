@@ -64,6 +64,7 @@ public class InstructionManager : Singleton<InstructionManager>
         foreach(Penguin.PenguinType penguinType in Enum.GetValues(typeof(Penguin.PenguinType)))
         {
             _instructionDictionary[penguinType] = new List<Instruction>();
+            setPenguinInstruction(penguinType, Instruction.Condition.ConditionType.always, Instruction.Action.ActionType.nullAction);
         }
     }
 
@@ -77,13 +78,14 @@ public class InstructionManager : Singleton<InstructionManager>
     public void setPenguinInstruction(Penguin.PenguinType penguinType,
         Instruction.Condition.ConditionType conditionType,
         Instruction.Action.ActionType actionType,
-        int param = -1
+        int conditionParam = 0,
+        int actionParam = 0
         )
     {
         // Fixme: ActionType 에도 param 추가한 것 반영 (0은 더미)
         _instructionDictionary[penguinType].Add(new Instruction(
-            new Instruction.Condition(conditionType,param),
-            new Instruction.Action(actionType, 0)
+            new Instruction.Condition(conditionType,conditionParam),
+            new Instruction.Action(actionType, actionParam)
             ));
     }
 
@@ -91,6 +93,15 @@ public class InstructionManager : Singleton<InstructionManager>
     public List<Instruction> getPenguinInstruction(Penguin.PenguinType penguinType)
     {
         return _instructionDictionary[penguinType];
+    }
+
+    public void clearPenguinInstruction()
+    {
+        foreach (Penguin.PenguinType penguinType in Enum.GetValues(typeof(Penguin.PenguinType)))
+        {
+            _instructionDictionary[penguinType].Clear();
+            setPenguinInstruction(penguinType, Instruction.Condition.ConditionType.always, Instruction.Action.ActionType.moveForward);
+        }
     }
 
 }

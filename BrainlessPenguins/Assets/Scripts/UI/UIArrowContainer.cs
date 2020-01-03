@@ -20,7 +20,7 @@ public class UIArrowContainer : MonoBehaviour
         _height /= 2;
 
         transform.GetChild(0).gameObject.GetComponent<UIArrowActionBtn>()._actionType = 0;
-        transform.GetChild(0).gameObject.GetComponent<UIArrowActionBtn>()._param = 0;
+        transform.GetChild(0).gameObject.GetComponent<UIArrowActionBtn>()._param = -1;
         transform.GetChild(0).gameObject.GetComponent<UIArrowActionBtn>()._btnID = 0;
 
         transform.GetChild(1).gameObject.GetComponent<UIArrowActionBtn>()._actionType = 0;
@@ -28,11 +28,11 @@ public class UIArrowContainer : MonoBehaviour
         transform.GetChild(1).gameObject.GetComponent<UIArrowActionBtn>()._btnID = 1;
 
         transform.GetChild(2).gameObject.GetComponent<UIArrowActionBtn>()._actionType = 2;
-        transform.GetChild(2).gameObject.GetComponent<UIArrowActionBtn>()._param = 0;
+        transform.GetChild(2).gameObject.GetComponent<UIArrowActionBtn>()._param = 1;
         transform.GetChild(2).gameObject.GetComponent<UIArrowActionBtn>()._btnID = 2;
 
         transform.GetChild(3).gameObject.GetComponent<UIArrowActionBtn>()._actionType = 3;
-        transform.GetChild(3).gameObject.GetComponent<UIArrowActionBtn>()._param = 0;
+        transform.GetChild(3).gameObject.GetComponent<UIArrowActionBtn>()._param = 1;
         transform.GetChild(3).gameObject.GetComponent<UIArrowActionBtn>()._btnID = 3;
     }
 
@@ -56,6 +56,7 @@ public class UIArrowContainer : MonoBehaviour
     {
         _instructionBtn.GetComponent<UIInstructionBtn>()._selfActionType = (Instruction.Action.ActionType)number;
         _instructionBtn.GetComponent<UIInstructionBtn>()._selfDirection.GetComponent<Image>().sprite = transform.GetChild(btnID).gameObject.GetComponent<Image>().sprite;
+        _instructionBtn.GetComponent<UIInstructionBtn>()._actionParam = param;
         gameObject.SetActive(false);
     }
 }

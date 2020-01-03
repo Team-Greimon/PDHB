@@ -20,9 +20,9 @@ public class UIManager : Singleton<UIManager>
     bool[] _isClickedPenguinBtnArray;
     int _currentSelectedPenguin = 0;
 
-    public int _penguinCount = 4;
-    public int _tileNumber = 4;
-    public int _instructionNumber = 8;
+    public int _penguinCount;
+    public int _tileNumber;
+    public int _instructionNumber;
 
     public Sprite _tileSprite;
 
@@ -31,6 +31,9 @@ public class UIManager : Singleton<UIManager>
 
     public delegate void ActionBtnClickEvent(int number,int param,int btnID);
     public event ActionBtnClickEvent actionBtnClick;
+
+    public delegate void PlayBtnClickEvent();
+    public event PlayBtnClickEvent playBtnClick;
 
     // Start is called before the first frame update
     void Start()
@@ -64,10 +67,12 @@ public class UIManager : Singleton<UIManager>
                 UIInstructionBtn _access = _instructionArray[i][j].GetComponent<UIInstructionBtn>();
 
                 _access._index = new KeyValuePair<int, int>(i, j);
+                _access._selfPenguinType = (Penguin.PenguinType)i;
                 _access._arrowContainer = _arrowContainer;
+                _access._selfActionType = Instruction.Action.ActionType.nullAction;
                 _access._selfCondition.GetComponent<Image>().sprite = _tileSprite;
                 _access._selfConditionType = Instruction.Condition.ConditionType.tileCollision;
-                _access._param = j;
+                _access._conditionParam = j + 1;
             }
             for(int j = _tileNumber; j < _tileNumber+_penguinCount; j++)
             {
@@ -78,10 +83,12 @@ public class UIManager : Singleton<UIManager>
                 UIInstructionBtn _access = _instructionArray[i][j].GetComponent<UIInstructionBtn>();
 
                 _access._index = new KeyValuePair<int, int>(i, j);
+                _access._selfPenguinType = (Penguin.PenguinType)i;
                 _access._arrowContainer = _arrowContainer;
+                _access._selfActionType = Instruction.Action.ActionType.nullAction;
                 _access._selfCondition.GetComponent<Image>().sprite = _penguinGrey;
                 _access._selfConditionType = Instruction.Condition.ConditionType.penguinCollision;
-                _access._param = j-_tileNumber;
+                _access._conditionParam = j + 1-_tileNumber;
             }
         }
         setInstruction(0);
@@ -110,6 +117,10 @@ public class UIManager : Singleton<UIManager>
     public void actionBtnEventTrigger(int number,int param,int btnID)
     {
         actionBtnClick(number,param,btnID);
+    }
+    public void playBtnEventTrigger()
+    {
+        playBtnClick();
     }
 
     public void penguinBtnOnClick(int number)

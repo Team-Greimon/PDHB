@@ -64,7 +64,7 @@ public class Penguin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -96,8 +96,7 @@ public class Penguin : MonoBehaviour
     protected void CheckConditionsMet()
     {
         _instructionsToRun.Clear();
-        //var instructions = InstructionManager.GetInst().getPenguinInstruction(_penguinType);
-        var instructions = GetDummyInstructions();
+        var instructions = InstructionManager.GetInst().getPenguinInstruction(_penguinType);
         foreach (var inst in instructions)
         {
             var condition = inst._condition;

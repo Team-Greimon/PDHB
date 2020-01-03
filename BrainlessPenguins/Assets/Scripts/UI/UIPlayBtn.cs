@@ -22,10 +22,13 @@ public class UIPlayBtn : MonoBehaviour
     {
         if (_isStart)
         {
+            _isStart = !_isStart;
             GameManager.GetInst().SetGameRunning(false);
+            MapManager.GetInst().LoadMap(1);
         }
         else
         {
+            InstructionManager.GetInst().clearPenguinInstruction();
             _isChecked = true;
             foreach (List<GameObject> list in UIManager.GetInst()._instructionArray)
             {
@@ -33,22 +36,14 @@ public class UIPlayBtn : MonoBehaviour
                 {
                     UIInstructionBtn temp = instruction.GetComponent<UIInstructionBtn>();
 
-                    if (temp._selfActionType != Instruction.Action.ActionType.nullAction)
-                    {
-                        InstructionManager.GetInst().setPenguinInstruction(temp._selfPenguinType, temp._selfConditionType, temp._selfActionType, temp._param);                        
-                    }
-                    else
-                    {
-                        _isChecked = false;
-                        Debug.Log("Set All Action");
-                    }
+                    InstructionManager.GetInst().setPenguinInstruction(temp._selfPenguinType, temp._selfConditionType, temp._selfActionType, temp._conditionParam,temp._actionParam);                        
                 }
             }
             if (_isChecked)
             {
+                _isStart = !_isStart;
                 GameManager.GetInst().SetGameRunning(true);
             }
         }
-        _isStart = !_isStart;
     }
 }

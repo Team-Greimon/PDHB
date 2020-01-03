@@ -23,6 +23,7 @@ public class Penguin : MonoBehaviour
     {
         black = 0,
         pink = 1,
+        green = 2,
     }
     public enum Direction
     {

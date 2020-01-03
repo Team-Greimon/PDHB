@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class PenguinManager : Singleton<PenguinManager>
 {
+    public void Reset()
+    {
+        foreach (var penguin in _penguins)
+        {
+            penguin.gameObject.SetActive(false);
+        }
+    }
+
     public void MakePenguin(int r, int c, Penguin.PenguinType penguinType, Penguin.Direction direction)
     {
         var gameObj = ObjectPoolManager.GetInst().GetPooledObject("Penguin");

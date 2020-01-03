@@ -20,10 +20,6 @@ public class UIManager : Singleton<UIManager>
     bool[] _isClickedPenguinBtnArray;
     int _currentSelectedPenguin = 0;
 
-    int _penguinCount;
-    int _tileNumber;
-    int _instructionNumber;
-
     public Sprite _tileSprite;
 
     public delegate void PenguinBtnClickEvent(int number);
@@ -38,15 +34,13 @@ public class UIManager : Singleton<UIManager>
     // Start is called before the first frame update
     void Start()
     {
-        _penguinCount = System.Enum.GetValues(typeof(Penguin.PenguinType)).Length;
-        _tileNumber = System.Enum.GetValues(typeof(Tile.TileType)).Length;
-        _instructionNumber = _penguinCount + _tileNumber;
+        var penguinCount = System.Enum.GetValues(typeof(Penguin.PenguinType)).Length;
 
         penguinBtnClick += setInstruction;
         penguinBtnClick += penguinBtnOnClick;
 
-        _penguinBtnArray = new GameObject[_penguinCount];
-        _isClickedPenguinBtnArray = new bool[_penguinCount];
+        _penguinBtnArray = new GameObject[penguinCount];
+        _isClickedPenguinBtnArray = new bool[penguinCount];
         _instructionArray = new List<List<GameObject>>();
         _arrowContainer.SetActive(false);
 
